@@ -1,3 +1,5 @@
 dwm with whatever patches or customisations I use. Currently stock dwm but 
 with a config tuned for running dwm as the Gnome WM. i.e. it sets gnome-panel 
 to tag 9 and relies on Gnome programs for quit and lock.
+
+Also includes the flextile patch <http://dwm.suckless.org/patches/flextile>.
