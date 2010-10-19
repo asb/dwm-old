@@ -1,0 +1,6 @@
+#!/bin/sh
+while xsetroot -name "`date`"; do
+  sleep 1
+done &
+wmname LG3D &
+exec ${HOME}/bin/dwm
