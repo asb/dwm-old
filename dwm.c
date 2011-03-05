@@ -590,6 +590,7 @@ configurerequest(XEvent *e) {
 
 Monitor *
 createmon(void) {
+  unsigned int i;
 	Monitor *m;
 
 	if(!(m = (Monitor *)calloc(1, sizeof(Monitor))))
@@ -605,6 +606,17 @@ createmon(void) {
 	m->ltaxis[1] = layoutaxis[1];
 	m->ltaxis[2] = layoutaxis[2];
 	m->msplit = 1;
+	/* init tags, bars, layouts, axes, msplits and mfacts */
+  m->curtag = m->prevtag = 1;
+  for(i = 0; i < LENGTH(tags) + 1; i++){
+    m->showbars[i] = m->showbar;
+    m->lts[i] = &layouts[0];
+    m->mfacts[i] = m->mfact;
+    m->ltaxes[i][0] = m->ltaxis[0];
+    m->ltaxes[i][1] = m->ltaxis[1];
+    m->ltaxes[i][2] = m->ltaxis[2];
+    m->msplits[i] = m->msplit;
+  }
 	return m;
 }
 
@@ -1503,8 +1515,6 @@ setmfact(const Arg *arg) {
 void
 setup(void) {
 	XSetWindowAttributes wa;
-	Monitor *m;
-	unsigned int i;
  
 	/* clean up any zombies immediately */
 	sigchld(0);
@@ -1541,19 +1551,6 @@ setup(void) {
 	XSetLineAttributes(dpy, dc.gc, 1, LineSolid, CapButt, JoinMiter);
 	if(!dc.font.set)
 		XSetFont(dpy, dc.gc, dc.font.xfont->fid);
-	/* init tags, bars, layouts, axes, msplits and mfacts */
-	for(m = mons; m; m = m->next) {
-		m->curtag = m->prevtag = 1;
-		for(i=0; i < LENGTH(tags) + 1; i++) {
-			m->showbars[i] = m->showbar;
-			m->lts[i] = &layouts[0];
-			m->mfacts[i] = m->mfact;
-			m->ltaxes[i][0] = m->ltaxis[0];
-			m->ltaxes[i][1] = m->ltaxis[1];
-			m->ltaxes[i][2] = m->ltaxis[2];
-			m->msplits[i] = m->msplit;
-		}
-	}
 	updatebars();
 	updatestatus();
 	/* EWMH support per view */
