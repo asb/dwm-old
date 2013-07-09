@@ -64,6 +64,13 @@ static const char *volumedown[] = { "amixer", "-q", "set", "Master", "3-", "unmu
 static const char *volumeup[]   = { "amixer", "-q", "set", "Master", "3+", "unmute", NULL };
 static const char *mute[]       = { "amixer", "-q", "set", "Master", "toggle", NULL };
 
+/* TODO: should really readlink of /proc/self/exe */
+void restart(const Arg *arg) {
+	char *const argv[] = {"/home/asb/repos/dwm/dwm", NULL};
+	execv(argv[0], argv);
+}
+
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -99,6 +106,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
 	{ MODKEY|ShiftMask,             XK_q,      quit,          {0} },
+	{ MODKEY|ShiftMask,             XK_r,      restart,          {0} },
 	{ MODKEY|ControlMask,           XK_t,      rotatelayoutaxis, {.i = 0} },    /* 0 = layout axis */
 	{ MODKEY|ControlMask,           XK_Tab,    rotatelayoutaxis, {.i = 1} },    /* 1 = master axis */
 	{ MODKEY|ControlMask|ShiftMask, XK_Tab,    rotatelayoutaxis, {.i = 2} },    /* 2 = stack axis */
