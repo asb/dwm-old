@@ -3,4 +3,5 @@ while xsetroot -name "`date`"; do
   sleep 1
 done &
 wmname LG3D &
+xautolock -time 10 -locker i3lock -detectsleep &
 exec ${HOME}/bin/dwm
