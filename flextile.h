@@ -7,6 +7,7 @@ struct Monitor {
 	double mfacts[LENGTH(tags) + 1];
 	int ltaxis[3];
 	int ltaxes[LENGTH(tags) + 1][3];
+	int nmaster;
 	int num;
 	int curtag;
 	int prevtag;
