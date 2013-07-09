@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const char font[]            = "-*-terminus-medium-r-normal-*-12-*-*-*-*-*-*-*";
@@ -57,7 +58,10 @@ static const Layout layouts[] = {
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *powercmd[] = { "gnome-session-save", "--shutdown-dialog", NULL };
-static const char *lockcmd[]= { "gnome-screensaver-command", "--lock", NULL };
+static const char *lockcmd[]= { "xautolock", "-locknow", NULL };
+static const char *volumedown[] = { "amixer", "-q", "set", "Master", "3-", "unmute", NULL };
+static const char *volumeup[]   = { "amixer", "-q", "set", "Master", "3+", "unmute", NULL };
+static const char *mute[]       = { "amixer", "-q", "set", "Master", "toggle", NULL };
 
 
 static Key keys[] = {
@@ -93,13 +97,16 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
-	{ MODKEY|ShiftMask,             XK_q,      spawn,          {.v = powercmd } },
+	{ MODKEY|ShiftMask,             XK_q,      quit,          {0} },
 	{ MODKEY|ControlMask,           XK_t,      rotatelayoutaxis, {.i = 0} },    /* 0 = layout axis */
 	{ MODKEY|ControlMask,           XK_Tab,    rotatelayoutaxis, {.i = 1} },    /* 1 = master axis */
 	{ MODKEY|ControlMask|ShiftMask, XK_Tab,    rotatelayoutaxis, {.i = 2} },    /* 2 = stack axis */
 	{ MODKEY|ControlMask,           XK_Return, mirrorlayout,     {0} },
 	{ MODKEY|ControlMask,           XK_h,      shiftmastersplit, {.i = -1} },   /* reduce the number of tiled clients in the master area */
 	{ MODKEY|ControlMask,           XK_l,      shiftmastersplit, {.i = +1} },   /* increase the number of tiled clients in the master area */
+	{ 0, XF86XK_AudioLowerVolume,   spawn,        { .v = volumedown } },
+	{ 0, XF86XK_AudioRaiseVolume,   spawn,        { .v = volumeup } }, 
+	{ 0, XF86XK_AudioMute,          spawn,        { .v = mute } }, 
 };
 
 /* button definitions */
