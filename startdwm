@@ -4,4 +4,5 @@ while xsetroot -name "`date`"; do
 done &
 wmname LG3D &
 xautolock -time 10 -locker i3lock -detectsleep &
-exec ${HOME}/bin/dwm
+dropboxd &
+exec ssh-agent ${HOME}/bin/dwm
